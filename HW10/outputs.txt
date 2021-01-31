@@ -1,0 +1,16 @@
+Distance(P1,L12) = 0.0
+Distance(P1,L23) = 35.4
+Distance(P1,P2) = 50.0
+Distance(P2,P3) = 141.4
+Distance(P3,P4) = 0.0
+Distance(P4,P1) = 111.8
+Length(PG1) = 303.2
+Area(PG1) = 2500.0
+Angle(L12,L23) = 45.0
+Angle(L12,L34) = 90.0
+Length(L12) = 50.0
+Length(L23) = 141.4
+Length(L34) = 0.0
+Length(L41) = 111.8
+Length(PG2) = 303.2
+Area(PG2) = 2500.0
