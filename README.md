@@ -1,5 +1,5 @@
 # CSE-102
-## CSE 102 - Computer Programming in C - Assignments
+## CSE 102 - Computer Programming in C Assignments
 
 ### [Homework 1](https://github.com/sglbl/CSE-102/tree/main/HW1)
 Newtonian Root Finder and Closest Divisible Integer Finder
