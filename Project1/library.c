@@ -40,7 +40,6 @@ void draw_fx(Figure* fig, double f(double x), double start_x, double end_x, doub
 	fig->treevalue = NULL;  // for not to call export_tree() function.
 	temp = fig->currentPoint;
 	i += step_size;
-	Point2D* old = temp;
 
 	while( i < end_x ){
 		temp->nextptr = (Point2D*)malloc(sizeof(Point2D));
@@ -104,7 +103,7 @@ void draw_ellipse(Point2D * centre, Point2D * width_height, Figure* fig){
 }
 
 void draw_polyline(Point2D* poly_line, int n, Figure* fig){
-	Point2D *temp=NULL , *temp2 = NULL;
+	Point2D *temp=NULL;
 	fig->currentPoint = (Point2D*)calloc(n, sizeof(Point2D));
 	fig->nextptr   = NULL;
 	fig->treevalue = NULL;	 // for not to call export_tree() function.
@@ -112,7 +111,6 @@ void draw_polyline(Point2D* poly_line, int n, Figure* fig){
 	fig->counter   = 0.0;
 	temp = (Point2D*)malloc(sizeof(Point2D));
 	temp = fig->currentPoint;
-	temp2 = temp;
 
 	for(int i=0; i<n; i++){
 		temp->nextptr = (Point2D*)malloc(sizeof(Point2D));
@@ -125,7 +123,7 @@ void draw_polyline(Point2D* poly_line, int n, Figure* fig){
 
 void draw_polygon(Point2D * poly_line, Figure *fig){
 	int counter,size;
-	Point2D *temp, *temp2;
+	Point2D *temp;
 
 	fig->treevalue = NULL;	 // for not to call export_tree() function.
 	fig->tree      = NULL;
@@ -134,7 +132,6 @@ void draw_polygon(Point2D * poly_line, Figure *fig){
 	fig->currentPoint = (Point2D*)calloc(size+1, sizeof(Point2D));
 	fig->nextptr = NULL;
 	temp = fig->currentPoint;
-	temp2 = temp;
 
 	counter = 0;
 	while(counter != size){
@@ -171,7 +168,7 @@ int is_even(int num){
 void draw_binary_tree(Tree *root, Figure* fig){
 	TreeValues *temp;
 	int iarray[30], counter;
-	Point2D pointTemp, pointTemp2, array[30];
+	Point2D array[30];
 	int arraycounter;
 	double difx,dify;
 
@@ -211,9 +208,7 @@ void draw_binary_tree(Tree *root, Figure* fig){
 	fig->dify = dify;
 
 	arraycounter=1;
-	pointTemp2 = temp->point;
 	for(int i=0; i<counter-1; i++){
-		pointTemp = temp->point;
 		temp->nextptr->point.x = temp->point.x - difx;
 		array[arraycounter].x = temp->point.x-difx, array[arraycounter].y = temp->point.y-dify;
 		arraycounter++;
@@ -235,7 +230,7 @@ void draw_binary_tree(Tree *root, Figure* fig){
 void export_tree(Figure * fig, char * file_name){
 	FILE *filep = fopen(file_name,"w");
 	TreeValues *temp = NULL;
-	Point2D pointTemp, pointTemp2, array[30];
+	Point2D array[30];
 	int counter, arraycounter;
 	double difx,dify;
 	fprintf(filep, "%%!PS-Adobe-3.0 EPSF-3.0 \n");
@@ -249,7 +244,6 @@ void export_tree(Figure * fig, char * file_name){
 		array[i] = fig->treear[i];
 	arraycounter=1;
 	temp = fig->treevalue;
-	pointTemp2 = temp->point;
 	for(int i=0; i<counter-1; i++){
 		fprintf(filep, "%lf %lf moveto\n",array[arraycounter].x+difx, array[arraycounter].y+dify);
 		fprintf(filep, "%lf %lf lineto\n",array[arraycounter].x, array[arraycounter].y); //left  leaf
@@ -349,7 +343,6 @@ void append_figures(Figure * fig1, Figure * fig2){
 
 void export_eps(Figure * fig, char * file_name){
 	Point2D* temp  = NULL;
-	Point2D* temp2 = NULL;
 	Figure *figTemp;
 	FILE* filep = fopen(file_name,"wt");
 	if(filep == NULL){
@@ -375,7 +368,6 @@ void export_eps(Figure * fig, char * file_name){
 		temp = figTemp -> currentPoint;	
 		if(temp->nextptr != NULL){
 			temp = temp->nextptr;
-			temp2 = temp;
 		}
 		if(temp==NULL){     
 			printf("Fig is empty.");
