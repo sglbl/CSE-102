@@ -45,7 +45,6 @@ int name_finder(char *piece){
 int essential_words(char *string){
 	char *string2 = strtok(string, "/");  // For prevent reading words in comment parts after //.
 	int flag1, flag2, flag3;
-	int size = strlen(string2);
 	//printf("Size is %d\n", size);
 
 	const char *f1 = "archetype";
@@ -215,7 +214,7 @@ Figure* read_default(char* file_name){
 void read_file(Figure **head){
 	FILE *filep = fopen("commands.txt","r");
 	char *piece, buffer[LINESIZE];	//For reading line characters.
-	Point2D *temp;
+	
 	Figure *info = (Figure*)malloc(sizeof(Figure));
 	int size,flag;
 	Figure *end;
@@ -355,9 +354,7 @@ void read_file(Figure **head){
 		}
 
 		if( *head==NULL ){
-			temp = (Point2D*)malloc(sizeof(Point2D));
 			*head = info;
-
 		}
 		else
 			end->nextptr = info;
@@ -373,18 +370,16 @@ void read_file(Figure **head){
 void draw_grid(Figure* info, char *file_name){
 	FILE *filep = fopen(file_name,"a+");
 	if(filep==NULL)	return;
-	double thickness, numberoftile;
-	double sum, size;
+	double numberoftile;
+	double size;
 
 	if( info-> show_grid == 0)
 		return;
 	if( info-> show_grid == 1){
-		thickness = info-> gridthick;
 	
 		fprintf(filep, "%.2f setlinewidth %% width\n",info->gridthick);
 		fprintf(filep, "%lf %lf %lf setrgbcolor\n",info->grid.red, info->grid.green, info->grid.blue);
 
-		sum=0;
 		size = info->tile_size;
 		numberoftile = info->canvas_size.c1/info->tile_size;
 		for(int i=0; i<numberoftile; i++){
@@ -406,7 +401,6 @@ void draw_grid(Figure* info, char *file_name){
 }
 
 void draw_background(Figure *fig, char *file_name){
-	Figure *temp = NULL;
 	FILE* filep = fopen(file_name,"a+");
 	if(filep == NULL){
 		printf("Couldn't open file.\n");
@@ -427,7 +421,6 @@ void draw_background(Figure *fig, char *file_name){
 }
 
 void coordinate_draw_top(Figure *fig, double x, double y, double multiplier, double angle){
-	Figure *temp = NULL;
 	FILE *filep = fopen(fig->filename, "a+");
 	if(filep==NULL)	return;
 
@@ -444,7 +437,6 @@ void coordinate_draw_top(Figure *fig, double x, double y, double multiplier, dou
 }
 
 void coordinate_draw_left(Figure *fig, double x, double y, double multiplier, double angle){
-	Figure *temp = NULL;
 	FILE *filep = fopen(fig->filename ,"a+");
 	if(filep==NULL)	return;
 
@@ -461,7 +453,6 @@ void coordinate_draw_left(Figure *fig, double x, double y, double multiplier, do
 }
 
 void coordinate_draw_bottom(Figure *fig, double x, double y, double multiplier, double angle){
-	Figure *temp = NULL;
 	FILE *filep = fopen(fig->filename, "a+");
 	if(filep==NULL)	return;
 
@@ -479,7 +470,6 @@ void coordinate_draw_bottom(Figure *fig, double x, double y, double multiplier, 
 }
 
 void coordinate_draw_right(Figure *fig, double x, double y, double multiplier, double angle){
-	Figure *temp = NULL;
 	FILE *filep = fopen(fig->filename, "a+");
 	if(filep==NULL)	return;
 
@@ -536,7 +526,7 @@ void drawing_square(Figure *fig, double x, double y){
 	char *file = (char*)calloc(size, sizeof(char));
 	double border, n, sqrt2 = sqrt(2);
 	double angle, multiplier;
-	Figure* temp;
+
 	strncpy(file, fig->filename, size);
 	FILE *filep;
 	filep = fopen(file,"a+");
@@ -570,7 +560,7 @@ void export_eps(Figure * fig, char * file_name){
 	Point2D* temp  = NULL;
 	double temp1, temp2;
 	Figure *figTemp;
-	int flag=0, flag2=0, counter=0;
+	int flag=0, counter=0;
 	Color c;
 	FILE* filep = fopen(file_name,"wt");
 	if(filep == NULL){
@@ -617,9 +607,8 @@ void export_eps(Figure * fig, char * file_name){
 				temp2 = fig->min.x;
 				size_t size = strlen(fig->filename); 
 				char *file = (char*)calloc(size, sizeof(char));
-				double border, n, sqrt2 = sqrt(2), sq3 = sqrt(3)/2.0;
-				//sq3=1;
-				double angle, multiplier;
+				double sq3 = sqrt(3)/2.0;
+
 				strncpy(file, fig->filename, size);
 				FILE *filep;
 				filep = fopen(file,"a+");
@@ -627,8 +616,6 @@ void export_eps(Figure * fig, char * file_name){
 					printf("Couldn't open file\n");
 					return;
 				}
-				if(is_even(((int)temp1))==0)	flag2=0;
-				else	flag2=1;
 			
 				if(counter%4)	temp2 += fig->tile_size;
 				while(temp2 < fig->max.x+100){
